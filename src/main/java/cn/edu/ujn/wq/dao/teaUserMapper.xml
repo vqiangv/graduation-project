@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.ujn.wq.dao.teaUserMapper">
+	<resultMap id="BaseResultMap"
+		type="cn.edu.ujn.wq.dao.teaUser">
+		<id column="tea_id" jdbcType="INTEGER" property="tea_id" />
+		<result column="tea_name" jdbcType="VARCHAR"
+			property="tea_name" />
+		<result column="tea_number" jdbcType="VARCHAR"
+			property="tea_number" />
+		<result column="tea_gender" jdbcType="VARCHAR"
+			property="tea_gender" />
+		<result column="tea_college" jdbcType="VARCHAR"
+			property="tea_college" />
+			<result column="tea_major" jdbcType="VARCHAR"
+			property="tea_major" />
+		<result column="tea_class" jdbcType="VARCHAR"
+			property="tea_class" />
+		<result column="tea_card" jdbcType="VARCHAR"
+			property="tea_card" />
+		<result column="tea_password" jdbcType="VARCHAR"
+			property="tea_password" />
+		<result column="tea_flag" jdbcType="INTEGER"
+			property="tea_flag" />			
+	</resultMap>
+	
+	<resultMap id="BaseResultMap1"
+		type="cn.edu.ujn.wq.dao.Stu_TeaUser">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="stu_college" jdbcType="VARCHAR"
+			property="stu_college" />
+		<result column="stu_major" jdbcType="VARCHAR"
+			property="stu_major" />
+		<result column="stu_class" jdbcType="VARCHAR"
+			property="stu_class" />
+		<result column="tea_number" jdbcType="INTEGER"
+			property="tea_number" />			
+	</resultMap>
+	<sql id="Base_Column_List">
+		tea_id,tea_name,tea_number,tea_college,tea_class,tea_gender,tea_card,,tea_password,tea_flag,tea_major
+	</sql>
+	<sql id="Base_Column_List1">
+		tea_number,stu_college,stu_major,stu_class
+	</sql>
+
+	<select id="findAllBoss" parameterType="String"
+		resultMap="BaseResultMap">
+		select * from teacheruser
+		where tea_flag=#{tea_flag}
+	</select>
+
+	<select id="findAllClassName" resultMap="BaseResultMap">
+		select * from
+		teacheruser
+	</select>
+	
+	<!--根据id查询某个教师的信息-->
+	<select id="findTeacherById" parameterType="INTEGER" resultMap="BaseResultMap">
+		select * from
+		teacheruser
+		where
+		tea_id=#{tea_id}
+	</select>
+
+	<select id="findAllTea" parameterType="String"
+		resultMap="BaseResultMap">
+		select * from teacheruser
+		where tea_flag=#{tea_flag}
+	</select>
+	<select id="findTeaUser" parameterType="String"
+		resultMap="BaseResultMap">
+		select * from teacheruser
+		where tea_number=#{login_number}
+		and
+		tea_password=#{login_password}
+	</select>
+	
+	<select id="bossManageClass" parameterType="String"
+		resultMap="BaseResultMap1">
+		select * 
+		from 
+		stu_teauser
+		where 
+		tea_number=#{tea_number}
+	</select>
+	
+	<!--管理员查询所有的某学院某专业某班级由某班主任管理  -->
+	<select id="findadminCMClassTea" resultMap="BaseResultMap1">
+	select
+	*
+	from
+	stu_teauser
+	</select>
+	
+	<insert id="createBossUser"
+		parameterType="cn.edu.ujn.wq.dao.teaUser">
+		insert into teacheruser(
+		tea_name,
+		tea_number,
+		tea_gender,
+		tea_college,
+		tea_class,
+		tea_card,
+		tea_password,
+		tea_flag
+		)
+		values(#{tea_name},
+		#{tea_number},
+		#{tea_gender},
+		#{tea_college},
+		#{tea_class},
+		#{tea_card},
+		#{tea_password},
+		#{tea_flag}
+		)<!--前为数据库表，后为对象类 -->
+	</insert>
+	<insert id="createTeacherUser"
+		parameterType="cn.edu.ujn.wq.dao.teaUser">
+		insert into teacheruser(
+		tea_name,
+		tea_number,
+		tea_gender,
+		tea_college,
+		tea_major,
+		tea_class,
+		tea_card,
+		tea_password,
+		tea_flag
+		)
+		values(#{tea_name},
+		#{tea_number},
+		#{tea_gender},
+		#{tea_college},
+		#{tea_major},
+		#{tea_class},
+		#{tea_card},
+		#{tea_password},
+		#{tea_flag}
+		)<!--前为数据库表，后为对象类 -->
+	</insert>
+	<!-- 管理员创建某学院某专业下的新班级 -->
+	<insert id="adminClassAdd"  parameterType="cn.edu.ujn.wq.dao.Stu_TeaUser">
+	  	insert into stu_teauser(
+		stu_college,
+		stu_major,
+		stu_class,
+		tea_number
+		)
+		values(
+		#{stu_college},
+		#{stu_major},
+		#{stu_class},
+		#{tea_number}
+		)
+	</insert>
+	<!--  管理员更新某学院某专业某班级某班主任的信息-->
+	<update id="updateadminCMClassTea" parameterType="cn.edu.ujn.wq.dao.Stu_TeaUser">
+	update stu_teauser
+	set
+	stu_college=#{stu_college},
+	stu_major=#{stu_major},
+	stu_class=#{stu_class},
+	tea_number=#{tea_number}
+	where
+	id=#{id};
+	</update>
+	<delete id="deleteBoss" parameterType="INTEGER" >
+		delete 
+		from teacheruser
+		where 
+		tea_id=#{inthiddInteger}
+	</delete>
+	<!--管理员更新班主任的账号  -->
+	<update id="updateBoss" parameterType="cn.edu.ujn.wq.dao.teaUser">
+	  update
+	  teacheruser
+	  set
+	  tea_name=#{tea_name},
+	  tea_number=#{tea_number},
+	  tea_gender=#{tea_gender},
+	  tea_card=#{tea_card},
+	  tea_flag=#{tea_flag}
+	  where
+	  tea_id=#{tea_id};
+	</update>
+	<!--管理员更新任课老师的账号  -->
+	<update id="updateTeacher" parameterType="cn.edu.ujn.wq.dao.teaUser">
+	  update
+	  teacheruser
+	  set
+	  tea_name=#{tea_name},
+	  tea_number=#{tea_number},
+	  tea_gender=#{tea_gender},
+	  tea_college=#{tea_college},
+	  tea_major=#{tea_major},
+	  tea_card=#{tea_card},
+	  tea_flag=#{tea_flag}
+	  where
+	  tea_id=#{tea_id};
+	</update>
+	<!-- 通过教师编号去查询教师的名字 -->
+	<select id="findTeaNameByNumber" parameterType="String" resultType="String">
+	select
+	tea_name
+	from
+	teacheruser
+	where
+	tea_number=#{tea_number};
+	</select>
+</mapper>

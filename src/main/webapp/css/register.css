@@ -1,0 +1,86 @@
+/*对页面头部head部分的修饰*/
+.head p
+{
+	font-size: 25px;
+}
+.head-hr
+{
+	height: 5px;
+	background-color: #0099ff;
+}
+
+/*对个人信息部分的属性设置*/
+.person
+{
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+.person legend
+{
+	font-size:22px;
+}
+.person tr td:first-child {
+	text-align: right;
+	font-size: 20px;
+}
+.person tr td:nth-child(2)
+{
+	height: 40px;
+}
+.person tr td input
+{
+	height:30px;
+	width: 200px;
+	border-radius:5px;
+	border-style: ridge;
+}
+/*对账号信息部分的属性设置*/
+.account legend
+{
+	font-size:22px;
+}
+.account tr td:first-child {
+	text-align: right;
+	font-size: 20px;
+}
+.account tr td:nth-child(2)
+{
+	height: 40px;
+}
+.account tr td input
+{
+	border-radius:5px;
+	border-style: ridge;
+	height:30px;
+	width: 200px;
+}
+
+/*对页面底部last部分的属性设置*/
+.last
+{
+	margin-top: 20px;
+}
+.last input
+{
+    border-radius: 5px;
+    background-color:#ffff66;
+    height:30px;
+    width: 150px;	
+    font-size:18px;
+}
+/*对随机生成验证码的属性设置*/
+#code
+{
+	    width: 200px;
+        height: 30px;
+        font-size: 20px;
+        line-height: 30px;
+        text-align: center;
+        color: #333;
+        border-radius:5px;
+        border: 0.5px ridge;
+        margin: 100px auto;
+        cursor: pointer;
+        margin:0px;
+        padding: 0;
+}

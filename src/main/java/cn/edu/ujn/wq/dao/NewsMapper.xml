@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.ujn.wq.dao.NewsMapper">
+	<resultMap id="BaseResultMap" type="cn.edu.ujn.wq.dao.News">
+		<id column="new_id" jdbcType="INTEGER" property="new_id" />
+		<result column="new_home" jdbcType="VARCHAR"
+			property="new_home" />
+		<result column="new_author" jdbcType="VARCHAR"
+			property="new_author" />
+		<result column="new_context" jdbcType="VARCHAR"
+			property="new_context" />
+			<result column="new_college" jdbcType="VARCHAR" property="new_college" />
+			<result column="new_major" jdbcType="VARCHAR" property="new_major" />
+			<result column="new_class" jdbcType="VARCHAR" property="new_class" />
+			<result column="new_date" jdbcType="VARCHAR"
+			property="new_date" />
+			<result column="new_flag" jdbcType="VARCHAR"
+			property="new_flag" />
+
+	</resultMap>
+	<sql id="Base_Column_List">
+		new_id,new_home,new_author,new_context,new_major,new_class,new_date,new_flag,new_college
+	</sql>
+
+   <!-- 添加新闻-->
+	<insert id="newsAdd" parameterType="cn.edu.ujn.wq.dao.News">
+		insert into news(
+		new_home,
+		new_author,
+		new_context,
+		new_college,
+		new_major,
+		new_class,
+		new_date,
+		new_flag
+		)
+		values(#{new_home},
+		#{new_author},
+		#{new_context},
+		#{new_college},
+		#{new_major},
+		#{new_class},
+		#{new_date},
+		#{new_flag}
+		)<!--前为数据库表，后为对象类 -->
+	</insert>
+	<delete id="deleteNews" parameterType="INTEGER">
+		delete from news
+		where new_id = #{newsID}
+	</delete>
+	
+   <!--  校内新闻的查询-->
+	<select id="newsFind" resultMap="BaseResultMap">
+		select
+		*
+		from
+		news
+		where
+		new_flag=#{new_flag};
+	</select>
+	<!--班级新闻的查询-对某学院某专业某班级的班级新闻的查询  -->
+	<select id="classNewsFind" parameterType="cn.edu.ujn.wq.dao.News" resultMap="BaseResultMap">
+		select
+		*
+		from
+		news
+		where new_major=#{new_major}
+		and new_college=#{new_college}
+		and new_class=#{new_class}
+		and new_flag=#{new_flag};
+	</select>
+	<!-- 通过id来查询某一个新闻 -->
+	<select id="newsFindID"  parameterType="INTEGER" resultMap="BaseResultMap">
+
+		select
+		*
+		from
+		news
+		where new_id = #{newsID}
+	</select>
+     <!--班主任发布班级公告  -->
+     <insert id="bossNoticesAdd" parameterType="cn.edu.ujn.wq.dao.News">
+     insert into news(
+		new_home,
+		new_author,
+		new_context,
+		new_college,
+		new_major,
+		new_class,
+		new_date,
+		new_flag
+		)
+		values(#{new_home},
+		#{new_author},
+		#{new_context},
+		#{new_college},
+		#{new_major},
+		#{new_class},
+		#{new_date},
+		#{new_flag}
+		)
+     </insert>
+     <!-- 班级公告的查询 -->
+     <select id="classNoticesFind" parameterType="cn.edu.ujn.wq.dao.News" resultMap="BaseResultMap">
+     	select
+		*
+		from
+		news
+		where new_major=#{new_major}
+		and new_college=#{new_college}
+		and new_class=#{new_class}
+		and new_flag=#{new_flag};
+     </select>
+     <!-- 班级公告的删除 -->
+     <delete id="deleteClassNotice" parameterType="INTEGER">
+     	delete from news
+		where new_id = #{id}
+     </delete>
+     <!--  班级公告的修改-->
+     <update id="updateClassNotice" parameterType="cn.edu.ujn.wq.dao.News">
+     update
+     news
+     set
+     new_home=#{new_home},
+      new_author=#{new_author},
+     new_context=#{new_context},
+     new_date=#{new_date}
+     where
+     new_id=#{new_id};
+     </update>
+       <!-- 班级公告的查询 -->
+     <select id="findClassGongGao" parameterType="cn.edu.ujn.wq.dao.News" resultMap="BaseResultMap">
+     	select
+		*
+		from
+		news
+		where new_major=#{new_major}
+		and new_college=#{new_college}
+		and new_class=#{new_class}
+		and new_flag=#{new_flag};
+     </select>
+</mapper>

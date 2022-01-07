@@ -1,0 +1,24 @@
+@charset "UTF-8";
+
+.stuClass_head
+{
+	font-size: 22px;
+	text-align: center;
+	color:#6666ff;
+}
+
+.stuClass_person
+{
+
+}
+.stuClass_person table
+{
+	text-align: center;
+	
+}
+.stuClass_person table td
+{
+	height:200px;
+	width:300px;
+	font-size: 16px;
+}

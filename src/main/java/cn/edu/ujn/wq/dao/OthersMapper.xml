@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.ujn.wq.dao.OthersMapper">
+	<resultMap id="BaseResultMap" type="cn.edu.ujn.wq.dao.College">
+		<result column="college_number" jdbcType="VARCHAR" property="college_number" />
+		<result column="college_name" jdbcType="VARCHAR" property="college_name" />
+		<collection property="majors"  ofType="Major">
+			<result  column="college_number" jdbcType="VARCHAR" property="college_number"/>
+			<result property="major_number" jdbcType="VARCHAR" column="major_number" />
+			<result property="major_name" jdbcType="VARCHAR" column="major_name" />		
+		</collection>
+		<collection property="classTeas"  ofType="ClassTea">
+			<result property="stu_class" jdbcType="VARCHAR" column="stu_class" />
+			<result property="tea_number" jdbcType="VARCHAR" column="tea_number" />
+			<result property="major_number" jdbcType="VARCHAR" column="major_number" />
+		</collection>
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		college_number,college_name
+	</sql>
+
+	<select id="findCollegeMajorClass" resultMap="BaseResultMap">
+		select
+		*
+		from
+		college,
+		major,
+		stutea
+		where
+		college.college_number=major.college_number
+		<!-- and major.major_number=stutea.major_number; -->
+	</select>
+</mapper>

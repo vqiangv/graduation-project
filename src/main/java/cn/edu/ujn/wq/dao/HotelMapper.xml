@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.ujn.wq.dao.HotelMapper">
+	<resultMap id="BaseResultMap" type="cn.edu.ujn.wq.dao.Hostel">
+		<result column="hostel_number" jdbcType="VARCHAR"
+			property="hostel_number" />
+		<result column="hostel_num" jdbcType="VARCHAR"
+			property="hostel_num" />
+		<result column="hostelHome_num" jdbcType="VARCHAR"
+			property="hostelHome_num" />
+		<result column="hostelPerson_num" jdbcType="VARCHAR"
+			property="hostelPerson_num" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		hostel_number,hostel_num,hostelHome_num,hostelPerson_num
+	</sql>
+
+	<insert id="hostelAdd" parameterType="cn.edu.ujn.wq.dao.Hostel">
+		insert into hostel(
+		hostel_number,
+		hostel_num,
+		hostelHome_num,
+		hostelPerson_num
+		)
+		values(#{hostel_number},
+		#{hostel_num},
+		#{hostelHome_num},
+		#{hostelPerson_num}
+		)
+	</insert>
+	<select id="findHotel" resultMap="BaseResultMap">
+		select
+		*
+		from
+		hostel
+	</select>
+
+</mapper>

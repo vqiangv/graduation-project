@@ -1,0 +1,144 @@
+@charset "UTF-8" ;
+body
+{   
+    background:url(../img/bk4.jpg) no-repeat ;
+    height: 100%;
+    width:100%;
+}
+/*  设置的全体属性
+1、首页的背景图
+2、首页的宽度和高度
+*/
+
+.context
+{
+    position:absolute ;
+    background-color:rgba(255,255,255,0.6);
+    height: 270px;
+    width: 310px;
+    margin-left: 550px; 
+    margin-top: 150px;
+}
+/*  
+设置context板块的属性
+1、绝对定位
+2、背景颜色，最后的0.6代表透明度
+3、高度、宽度
+4、内边距
+*/
+.context1 input
+{
+    height: 20px;
+   
+}
+/*  
+设置输入框的高度
+*/
+/*///////////////////////////////////////////////*/
+.home
+{
+    margin-left: 450px;
+    margin-top: 70px;
+    margin-bottom: -90px;
+}
+.home span
+{
+ font-size: 40px;
+ color:#1296db;
+}
+/* ///////////////////////////////////////////////
+对于网页顶部 “班级学生信息管理系统”的属性设置
+*/
+
+.context1
+{
+    position: absolute;
+   padding-left: 25px;
+   padding-top: 30px;
+
+}
+/*  对context绝对定位，内边距的设置*/
+.context1 span
+{
+    font-size: 16px;
+}
+/* 对“账号，密码”的属性设置 */
+#fname
+{
+    height: 25px;
+    border-radius: 5px;
+    width: 190px;
+    border-style: none;
+}
+/*  输入账号框，高度，圆角，宽度，边框*/
+#password
+{
+    height: 25px;
+    border-radius: 5px;
+    width: 190px;
+    border-style: none;
+    margin-top: 5px;
+
+}
+/*  输入密码框，高度，圆角，宽度，边框，上外边距*/
+
+/*  身份选择，高度，宽度，圆角，边框*/
+#yanzhengma
+{
+    border-radius: 5px;
+    width:190px;
+    height: 25px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-style: none;
+}
+.context1 tr td:first-child {
+	text-align: right;
+}
+/*对验证码，圆角，宽度，高度，边距，边框  */
+#subd
+{
+    border-radius: 5px;
+    background-color:deepskyblue;
+    height:30px;
+    width: 120px;
+    border-style: none;
+}
+/* 登录，圆角，背景色，高度，宽度，边框*/
+#subz
+{
+    border-radius: 5px;
+    background-color:white;
+    height:30px;
+    width:120px;
+    border-style: none;
+}
+/* 对注册，圆角，背景色，高度，宽度，边框*/
+.context1 a{
+    font-size: 16px;
+    margin-left: 90px;
+}
+/* 对“忘记密码” */
+.last
+{
+	padding-top:350px;
+}
+/*  对网站编号*/
+/*对登录界面验证码的属性的设置*/
+#code
+{
+	    width: 200px;
+        height: 30px;
+        font-size: 20px;
+        line-height: 30px;
+        text-align: center;
+        color: #333;
+        border-radius:5px;
+        border: 0.5px ridge;
+        margin: 100px auto;
+        cursor: pointer;
+        margin:0px;
+        padding: 0;
+}
+
+

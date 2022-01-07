@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.ujn.wq.dao.ClassMapper">
+  <resultMap id="BaseResultMap" type="cn.edu.ujn.wq.dao.User">
+    <!-- 前面跟数据库对应，后面跟java类对应 -->
+    <id column="stu_id" jdbcType="INTEGER" property="stu_id" />
+		<result column="stu_name" jdbcType="VARCHAR"
+			property="stu_name" />
+		<result column="stu_number" jdbcType="VARCHAR"
+			property="stu_number" />
+		<result column="stu_gender" jdbcType="VARCHAR"
+			property="stu_gender" />
+		<result column="stu_college" jdbcType="VARCHAR"
+			property="stu_college" />
+		<result column="stu_major" jdbcType="VARCHAR"
+			property="stu_major" />
+		<result column="stu_class" jdbcType="VARCHAR"
+			property="stu_class" />
+			<result column="stu_house" jdbcType="VARCHAR"
+			property="stu_house" />
+			<result column="stu_housenum" jdbcType="VARCHAR"
+			property="stu_housenum" />
+		<result column="stu_job" jdbcType="VARCHAR"
+			property="stu_job" />
+		<result column="stu_card" jdbcType="VARCHAR"
+			property="stu_card" />
+		<result column="stu_password" jdbcType="VARCHAR"
+			property="stu_password" />
+	</resultMap>
+	
+	<resultMap id="BaseResultMap1"
+		type="cn.edu.ujn.wq.dao.Stu_TeaUser">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="stu_college" jdbcType="VARCHAR"
+			property="stu_college" />
+		<result column="stu_major" jdbcType="VARCHAR"
+			property="stu_major" />
+		<result column="stu_class" jdbcType="VARCHAR"
+			property="stu_class" />
+		<result column="tea_number" jdbcType="INTEGER"
+			property="tea_number" />			
+	</resultMap>
+	<!-- 班级介绍的表 -->
+	<resultMap id="BaseResultMap2"
+		type="cn.edu.ujn.wq.dao.ClassIntroduction">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="college" jdbcType="VARCHAR"
+			property="college" />
+		<result column="major" jdbcType="VARCHAR"
+			property="major" />
+		<result column="classs" jdbcType="VARCHAR"
+			property="classs" />
+		<result column="introduction" jdbcType="VARCHAR"
+			property="introduction" />			
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		stu_id,stu_name,stu_number,stu_college,stu_gender,stu_major,stu_class,stu_house,stu_housenum,stu_job,stu_card,,stu_password
+	</sql>
+	
+	<sql id="Base_Column_List1">
+		tea_number,stu_college,stu_major,stu_class
+	</sql>
+	
+	<sql id="Base_Column_List2">
+	 id,college,major,classs,introduction
+	</sql>
+ 
+  <!-- 查询用户名和密码 -->
+  <select id="findClass" parameterType="String"
+		resultMap="BaseResultMap">
+		select * from stuclass
+		where stuClass_number=#{stuClass_number}
+	</select>
+	
+  <!--查询所在班级的所有人员  -->
+  <select id="findAllClassPerson"  parameterType="cn.edu.ujn.wq.dao.User" resultMap="BaseResultMap">
+		select * from stuuser
+		where 
+		stu_class=#{stu_class}
+		and stu_college=#{stu_college}
+		and stu_major=#{stu_major};
+	</select>
+	
+	<!--查询某学院某专业某班级的所有成员  -->
+	 <select id="findAllClassNameStu" parameterType="cn.edu.ujn.wq.dao.User" resultMap="BaseResultMap">
+		select 
+		* 
+		from 
+		stuuser
+		where 
+	     stu_college=#{stu_college}
+		and stu_major=#{stu_major}
+		and stu_class=#{stu_class}
+	</select>
+	<!-- 根据id进行多表联合查询，查询出某学院某专业某班级的所有成员 -->
+	<select id="findOneClassNameStu" parameterType="INTEGER" resultMap="BaseResultMap">
+	   select 
+		* 
+		from 
+		stuuser,
+		stu_teauser
+		where 
+		stu_teauser.id=#{id}
+		and stuuser.stu_college=stu_teauser.stu_college
+		and stuuser.stu_major=stu_teauser.stu_major
+		and stuuser.stu_class=stu_teauser.stu_class;
+	</select>
+	
+	<!--管理员更新学生的信息 -->
+	 <update id="updateStu" parameterType="cn.edu.ujn.wq.dao.User" >
+	 update stuuser
+	 set
+	 stu_name=#{stu_name},
+	 stu_number=#{stu_number},
+	 stu_gender=#{stu_gender},
+	 stu_house=#{stu_house},
+	 stu_housenum=#{stu_housenum},
+	 stu_card=#{stu_card},
+	 stu_job=#{stu_job}
+	 where
+	 stu_id=#{stu_id};
+	 </update>
+	<!--管理员删除学生的信息  -->
+	<delete id="deleteStu" parameterType="INTEGER">
+	delete 
+		from stuuser
+		where 
+		stu_id=#{stu_id}
+	</delete>
+	  <!--  
+  <update id="deleteUser" parameterType="INT">
+  update student
+  set stuClass_major=0
+  where stuClass_data=#{id}
+  </update>
+  -->
+  <!-- 查询班级介绍 -->
+  <select id="findClassIntroduction"  parameterType="cn.edu.ujn.wq.dao.ClassIntroduction"  resultMap="BaseResultMap2">
+  select 
+  *
+  from
+  classintroduction
+  where
+  college=#{college}
+  and major=#{major}
+  and classs=#{classs};
+  </select>
+  <!--根据宿舍号查询宿舍成员的信息  -->
+  <select id="findAllPresonByHousenum" parameterType="cn.edu.ujn.wq.dao.User" resultMap="BaseResultMap">
+  select
+  *
+  from
+  stuuser
+  where
+  stu_college=#{stu_college}
+		and stu_major=#{stu_major}
+		and stu_class=#{stu_class}
+		and stu_housenum=#{stu_housenum};
+  </select>
+</mapper>

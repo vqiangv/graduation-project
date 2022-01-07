@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.ujn.wq.dao.UserMapper">
+	<resultMap id="BaseResultMap" type="cn.edu.ujn.wq.dao.User">
+		<id column="stu_id" jdbcType="INTEGER" property="stu_id" />
+		<result column="stu_name" jdbcType="VARCHAR"
+			property="stu_name" />
+		<result column="stu_number" jdbcType="VARCHAR"
+			property="stu_number" />
+		<result column="stu_gender" jdbcType="VARCHAR"
+			property="stu_gender" />
+		<result column="stu_college" jdbcType="VARCHAR"
+			property="stu_college" />
+		<result column="stu_major" jdbcType="VARCHAR"
+			property="stu_major" />
+		<result column="stu_class" jdbcType="VARCHAR"
+			property="stu_class" />
+		<result column="stu_house" jdbcType="VARCHAR"
+			property="stu_house" />
+		<result column="stu_housenum" jdbcType="VARCHAR"
+			property="stu_housenum" />
+		<result column="stu_job" jdbcType="VARCHAR" property="stu_job" />
+		<result column="stu_card" jdbcType="VARCHAR"
+			property="stu_card" />
+		<result column="stu_password" jdbcType="VARCHAR"
+			property="stu_password" />
+		<!-- 多对多映射关系 -->
+		<collection property="courses" ofType="Course">
+			<id property="course_id" column="course_id"></id>
+			<result property="course_year" column="course_year"></result>
+			<result property="course_term" column="course_term"></result>
+			<result property="course_number" column="course_number"></result>
+			<result property="course_name" column="course_name"></result>
+			<result property="course_score" column="course_score"></result>
+		</collection>
+	 <!--配置角色映射-->
+		<!--  <collection property="teaUsers" ofType="teaUser">
+     	<id column="tea_id" jdbcType="INTEGER" property="tea_id" />
+		<result column="tea_name" jdbcType="VARCHAR"
+			property="tea_name" />
+		<result column="tea_number" jdbcType="VARCHAR"
+			property="tea_number" />
+		<result column="tea_gender" jdbcType="VARCHAR"
+			property="tea_gender" />
+		<result column="tea_college" jdbcType="VARCHAR"
+			property="tea_college" />
+		<result column="tea_class" jdbcType="VARCHAR"
+			property="tea_class" />
+		<result column="tea_card" jdbcType="VARCHAR"
+			property="tea_card" />
+		<result column="tea_password" jdbcType="VARCHAR"
+			property="tea_password" />
+		<result column="tea_flag" jdbcType="INTEGER"
+			property="tea_flag" />
+			</collection> -->
+	</resultMap>
+	<sql id="Base_Column_List">
+		stu_id,stu_name,stu_number,stu_college,stu_gender,stu_major,stu_class,stu_house,stu_housenum,stu_job,stu_card,,stu_password
+	</sql>
+	<!-- <select id="selectByPrimaryKey" parameterType="java.lang.INT" resultMap="BaseResultMap"> 
+		select <include refid="Base_Column_List" /> from student where stu_id = #{stu_id,jdbcType=INT} 
+		</select> <delete id="deleteByPrimaryKey" parameterType="java.lang.INT"> 
+		delete from student where stu_id = #{stu_id,jdbcType=INT} </delete> <insert 
+		id="insert" parameterType="cn.edu.ujn.ant.dao.User"> insert into student 
+		(stu_id, user_name, user_number, user_college, stu_password) values (#{stu_id,jdbcType=INT}, 
+		#{user_name,jdbcType=VARCHAR}, #{user_number,jdbcType=VARCHAR}, #{user_college,jdbcType=VARCHAR}, 
+		#{stu_password,jdbcType=INT}) </insert> <insert id="insertSelective" parameterType="cn.edu.ujn.ant.dao.User"> 
+		insert into student <trim prefix="(" suffix=")" suffixOverrides=","> <if 
+		test="stu_id != null"> stu_id, </if> <if test="user_name != null"> user_name, 
+		</if> <if test="user_number != null"> user_number, </if> <if test="user_college 
+		!= null"> user_college, </if> <if test="stu_password != null"> stu_password, 
+		</if> </trim> <trim prefix="values (" suffix=")" suffixOverrides=","> <if 
+		test="stu_id != null"> #{stu_id,jdbcType=INT}, </if> <if test="user_name 
+		!= null"> #{user_name,jdbcType=VARCHAR}, </if> <if test="user_number != null"> 
+		#{user_number,jdbcType=VARCHAR}, </if> <if test="user_college != null"> #{user_college,jdbcType=VARCHAR}, 
+		</if> <if test="stu_password != null"> #{stu_password,jdbcType=INT}, </if> 
+		</trim> </insert> <update id="updateByPrimaryKeySelective" parameterType="cn.edu.ujn.wq.dao.User"> 
+		update student <set> <if test="user_name != null"> user_name = #{user_name,jdbcType=VARCHAR}, 
+		</if> <if test="user_number != null"> user_number = #{user_number,jdbcType=VARCHAR}, 
+		</if> <if test="user_college != null"> user_college = #{user_college,jdbcType=VARCHAR}, 
+		</if> <if test="stu_password != null"> stu_password = #{stu_password,jdbcType=INT}, 
+		</if> </set> where stu_id = #{stu_id,jdbcType=INT} </update> <update id="updateByPrimaryKey" 
+		parameterType="cn.edu.ujn.ant.dao.User"> update student set user_name = #{user_name,jdbcType=VARCHAR}, 
+		user_number = #{user_number,jdbcType=VARCHAR}, user_college = #{user_college,jdbcType=VARCHAR}, 
+		stu_password = #{stu_password,jdbcType=INT} where stu_id = #{stu_id,jdbcType=INT} 
+		</update> -->
+	<!-- 查询用户名和密码 -->
+	<select id="findUser" parameterType="String"
+		resultMap="BaseResultMap">
+		select * from stuuser
+		where stu_number=#{login_number} and
+		stu_password=#{login_password}
+	</select>
+
+   <!-- 多表查询查询个人课表 -->
+	<select id="findPersonCourse" resultMap="BaseResultMap">
+		select
+		*
+		from
+		stuuser,
+		stucourse,
+		course
+		where
+		stuuser.stu_number=#{stu_number}
+		and stucourse.stu_number=stuuser.stu_number
+		and stucourse.course_number = course.course_number;
+	</select>
+
+	<!-- 添加用户 -->
+
+	<insert id="createUser" parameterType="cn.edu.ujn.wq.dao.User">
+		insert into stuuser(
+		stu_name,
+		stu_number,
+		stu_gender,
+		stu_college,
+		stu_major,
+		stu_class,
+		stu_house,
+		stu_housenum,
+		stu_job,
+		stu_card,
+		stu_password
+		)
+		values(#{stu_name},
+		#{stu_number},
+		#{stu_gender},
+		#{stu_college},
+		#{stu_major},
+		#{stu_class},
+		#{stu_house},
+		#{stu_housenum},
+		#{stu_job},
+		#{stu_card},
+		#{stu_password}
+		)<!--前为数据库表，后为对象类 -->
+	</insert>
+	<!-- 方法中有一个int类型，这里的传输类型使string，所以会报错 -->
+	<insert id="createBossUser"
+		parameterType="cn.edu.ujn.wq.dao.User">
+		insert into user(
+		user_name,
+		user_number,
+		user_college,
+		stu_password,
+		user_gender,
+		stu_card,
+		user_flag
+		)
+		values(#{user_name},
+		#{user_number},
+		#{user_college},
+		#{stu_password},
+		#{user_gender},
+		#{stu_card},
+		#{user_flag}
+		)<!--前为数据库表，后为对象类 -->
+	</insert>
+
+
+	<insert id="createTeacherUser"
+		parameterType="cn.edu.ujn.wq.dao.User">
+		insert into user(
+		user_name,
+		user_number,
+		user_college,
+		stu_password,
+		user_gender,
+		stu_card,
+		user_flag
+		)
+		values(#{user_name},
+		#{user_number},
+		#{user_college},
+		#{stu_password},
+		#{user_gender},
+		#{stu_card},
+		#{user_flag}
+		)<!--前为数据库表，后为对象类 -->
+	</insert>
+	<!-- <update id="deleteUser" parameterType="INT"> update student set stu_password=0 
+		where stu_id=#{id} </update> -->
+
+</mapper>

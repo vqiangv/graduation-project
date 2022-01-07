@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.ujn.wq.dao.CourseMapper">
+	<resultMap id="BaseResultMap" type="cn.edu.ujn.wq.dao.Course">
+		<id column="course_id" jdbcType="INTEGER"
+			property="course_id" />
+			<result column="course_year" jdbcType="VARCHAR"
+			property="course_year" />
+			<result column="course_term" jdbcType="VARCHAR"
+			property="course_term" />
+			<result column="course_number" jdbcType="VARCHAR"
+			property="course_number" />
+		<result column="course_name" jdbcType="VARCHAR"
+			property="course_name" />
+		<result column="course_score" jdbcType="VARCHAR"
+			property="course_score" />
+	</resultMap>
+	<!-- 关系表 -->
+		<resultMap id="BaseResultMap1" type="cn.edu.ujn.wq.dao.Tea_course">
+		<id column="id" jdbcType="INTEGER"
+			property="id" />
+			<result column="course_number" jdbcType="VARCHAR"
+			property="course_number" />
+		<result column="tea_number" jdbcType="VARCHAR"
+			property="tea_number" />
+	</resultMap>
+	<!--  教师添加的课程信息表-->
+		<resultMap id="BaseResultMap2" type="cn.edu.ujn.wq.dao.TeaCourse">
+			<id column="id" jdbcType="INTEGER"
+			property="id" />
+			<result column="course_number" jdbcType="VARCHAR"
+			property="course_number" />
+		<result column="tea_number" jdbcType="VARCHAR"
+			property="tea_number" />
+		<result column="course_name" jdbcType="VARCHAR"
+			property="course_name" />
+				<result column="course_college" jdbcType="VARCHAR"
+			property="course_college" />
+		<result column="course_major" jdbcType="VARCHAR"
+			property="course_major" />
+		<result column="course_class" jdbcType="VARCHAR"
+			property="course_class" />
+				<result column="course_time" jdbcType="VARCHAR"
+			property="course_time" />
+		<result column="course_address" jdbcType="VARCHAR"
+			property="course_address" />   
+	</resultMap>
+	<!--教学效果信息表  -->
+	<resultMap id="BaseResultMap3" type="cn.edu.ujn.wq.dao.Scores">
+			<id column="id" jdbcType="INTEGER"
+			property="id" />
+			<result column="course_number" jdbcType="VARCHAR"
+			property="course_number" />
+		<result column="stu_number" jdbcType="VARCHAR"
+			property="stu_number" />
+		<result column="course_name" jdbcType="VARCHAR"
+			property="course_name" />
+				<result column="course_college" jdbcType="VARCHAR"
+			property="course_college" />
+		<result column="course_major" jdbcType="VARCHAR"
+			property="course_major" />
+		<result column="course_class" jdbcType="VARCHAR"
+			property="course_class" />
+				<result column="stu_number" jdbcType="VARCHAR"
+			property="stu_number" />
+		<result column="score" jdbcType="VARCHAR"
+			property="score" />   
+	</resultMap>
+	<sql id="Base_Column_List">
+		course_id,course_number,course_name,course_score,course_year,course_term
+	</sql>
+	<sql id="Base_Column_List1">
+		course_number,tea_number
+	</sql>
+	<sql id="Base_Column_List2">
+		course_college,course_number,course_name,course_major,course_class,course_time,course_address,tea_number
+	</sql>
+		<sql id="Base_Column_List3">
+		course_college,course_number,course_name,course_major,course_class,stu_number,stu_name,score
+	</sql>
+	<!--  -->
+
+   <!-- 管理员发布课程信息 -->
+	<insert id="courseAdd" parameterType="cn.edu.ujn.wq.dao.Course">
+			insert into course(
+		course_number,
+		course_name,
+		course_year,
+		course_term,
+		course_score
+		)
+		values(#{course_number},
+		#{course_name},
+		#{course_year},
+		#{course_term},
+		#{course_score}
+		)<!--前为数据库表，后为对象类 -->
+	</insert>
+    <!-- 向课程-任课老师课程关系表中添加数据-->
+    <insert id="tea_CourseAdd" parameterType="cn.edu.ujn.wq.dao.Tea_course">
+		insert into tea_course(
+		course_number,
+		tea_number
+		)
+		values(#{course_number},
+		#{tea_number}
+		)<!--前为数据库表，后为对象类 -->
+	</insert>
+    <!-- 向任课老师添加课程信息表中添加数据 -->
+<insert id="teaCourseAdd" parameterType="cn.edu.ujn.wq.dao.TeaCourse">
+		insert into teacourse(
+		course_number,
+		tea_number,
+		course_name,
+		course_college,
+		course_major,
+		course_class,
+		course_time,
+		course_address
+		)
+		values(#{course_number},
+		#{tea_number},
+		#{course_name},
+		#{course_college},
+		#{course_major},
+		#{course_class},
+		#{course_time},
+		#{course_address}
+		)<!--前为数据库表，后为对象类 -->
+	</insert>
+	
+	<!--任课老师查看自己的课表  -->
+	<select id="teaFindCourse" parameterType="String" resultMap="BaseResultMap">
+	select
+	*
+	from
+	tea_course,
+	course
+	where
+	tea_course.tea_number=#{tea_number}
+	and
+	course.course_number=tea_course.course_number;
+	</select>
+	
+	<!-- 根据课程号，学院，专业，班级查询上课时间和上课地点 -->
+	<select id="FindCourseTimeAddress" parameterType="cn.edu.ujn.wq.dao.TeaCourse" resultMap="BaseResultMap2">
+	select
+	*
+	from
+	teacourse
+	where
+	course_number=#{course_number}
+	and course_college=#{course_college}
+	and course_major=#{course_major}
+	and course_class=#{course_class};
+	</select>
+	
+	<select id="teaFindCourseTimeAddress" parameterType="String" resultMap="BaseResultMap2">
+	select
+	*
+	from
+	teacourse,
+	tea_course
+	where
+	tea_course.tea_number=#{tea_number}
+	and teacourse.id=tea_course.id
+	and teacourse.tea_number=tea_course.tea_number;
+	</select>
+	
+	   <!--SQL片段  -->
+    <sql id="selectCourseListWhere">
+        <where>
+	       <if test="course_year!= null" >
+	           course.course_year=#{course_year}
+	       </if>
+	       <if test="course_term!= null" >
+	        and course.course_term=#{course_term}
+	       </if>
+	   
+        </where>
+        </sql>
+
+	<!-- 任课老师根据学年和学期查看自己的课表 -->
+	<select id="teaFindCourseYearTerm" parameterType="String" resultMap="BaseResultMap">
+	select
+	*
+	from
+	course,
+	tea_course
+    where
+    course.course_year=#{course_year}
+    and course.course_term=#{course_term}
+    and course.course_number=tea_course.course_number
+    and tea_course.tea_number=#{tea_number};
+	</select>
+	<!--  -->
+	<select id="teaFindCYTtimeaddress" parameterType="String" resultMap="BaseResultMap2">
+	select
+	*
+	from
+	course,
+	tea_course,
+	teacourse
+	where
+	course.course_year=#{course_year}
+    and (course.course_term is null or course.course_term=#{course_term})
+    and course.course_number=tea_course.course_number
+    and tea_course.course_number=teacourse.course_number
+    and tea_course.tea_number=#{tea_number}
+    and tea_course.tea_number= teacourse.tea_number;
+	</select>
+	<!-- 学生查询自己的课表 -->
+	<select id="findPersonCourse" parameterType="String" resultMap="BaseResultMap2">
+	select
+	*
+	from
+	teacourse
+	where
+	course_college=#{course_college}
+	and course_major=#{course_major}
+	and course_class=#{course_class};
+	</select>
+	<!--任课老师发布教学效果-->
+	<insert id="teaFindAddCourseXiaoguo" parameterType="cn.edu.ujn.wq.dao.Scores">
+		insert into coursexiaoguo(
+		course_number,
+		stu_number,
+		course_name,
+		course_college,
+		course_major,
+		course_class,
+		stu_name,
+		score
+		)
+		values(#{course_number},
+		#{stu_number},
+		#{course_name},
+		#{course_college},
+		#{course_major},
+		#{course_class},
+		#{stu_name},
+		#{score}
+		)
+	</insert>
+</mapper>

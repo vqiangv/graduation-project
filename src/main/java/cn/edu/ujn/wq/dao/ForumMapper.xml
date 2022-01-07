@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.ujn.wq.dao.ForumMapper">
+	<resultMap id="BaseResultMap" type="cn.edu.ujn.wq.dao.Forum">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="forum_name" jdbcType="VARCHAR"
+			property="forum_name" />
+		<result column="forum_number" jdbcType="VARCHAR"
+			property="forum_number" />
+		<result column="forum_text" jdbcType="VARCHAR"
+			property="forum_text" />
+			<result column="forum_date" jdbcType="VARCHAR" property="forum_date" />
+			<result column="forum_college" jdbcType="VARCHAR" property="forum_college" />
+			<result column="forum_major" jdbcType="VARCHAR" property="forum_major" />
+			<result column="forum_class" jdbcType="VARCHAR" property="forum_class" />
+	</resultMap>
+	<!--  回复表-->
+	<resultMap id="BaseResultMap2" type="cn.edu.ujn.wq.dao.Forumt">
+	    <id column="uni_id" jdbcType="INTEGER" property="uni_id" />
+		<result column="id" jdbcType="INTEGER" property="id" />
+		<result column="forumt_number" jdbcType="VARCHAR"
+			property="forumt_number" />
+		<result column="forumt_text" jdbcType="VARCHAR"
+			property="forumt_text" />
+		<result column="forumt_date" jdbcType="VARCHAR" property="forumt_date" />	
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		id,forum_name,forum_number,forum_text,forum_date,forum_college,forum_major,forum_class
+	</sql>
+	
+	<sql id="Base_Column_List2">
+		id,forumt_number,forumt_text,forumt_date,uni_id
+	</sql>
+	<!--发布帖子  -->
+	<insert id="formAdd" parameterType="cn.edu.ujn.wq.dao.Forum">
+	insert into forum(
+		forum_name,
+		forum_number,
+		forum_text,
+		forum_date,
+		forum_college,
+		forum_major,
+		forum_class
+		)
+		values(#{forum_name},
+		#{forum_number},
+		#{forum_text},
+		#{forum_date},
+		#{forum_college},
+		#{forum_major},
+		#{forum_class}
+		)<!--前为数据库表，后为对象类 -->
+	</insert>
+	<!--查询某学院某专业某班级的论坛帖子 -->
+<select id="findOneClassForums" parameterType="cn.edu.ujn.wq.dao.Forum" resultMap="BaseResultMap">
+    select
+    *
+    from
+    forum
+    where
+    forum_college=#{forum_college}
+	and forum_major=#{forum_major}
+	and forum_class=#{forum_class};
+	</select>
+	
+	<!-- 查询回复帖子 -->
+	<select id="findOneAllHuiForums" parameterType="INTEGER" resultMap="BaseResultMap2">
+	   select
+    *
+    from
+    forumt
+    where
+    id=#{id}
+	</select>
+	
+	<!--发布留言  -->
+	<insert id="LiuYanAdd" parameterType="cn.edu.ujn.wq.dao.Forumt">
+	 insert into forumt(
+		id,
+		forumt_number,
+		forumt_text,
+		forumt_date
+		)
+		values(#{id},
+		#{forumt_number},
+		#{forumt_text},
+		#{forumt_date}
+		)
+	</insert>
+<!-- 通过id查询帖子的内容 -->
+<select id="findOneForums" parameterType="INTEGER" resultMap="BaseResultMap">
+    select
+    *
+    from
+    forum
+    where
+    id=#{id}
+	</select>
+	
+	<!--查询某个学生用户的全部帖子  -->
+	<select id="findOneStuAllForum" parameterType="String" resultMap="BaseResultMap">
+	select
+	*
+	from
+	forum
+	where
+	forum_number=#{forum_number};
+	</select>
+	<!--查询某个学生用户的全部留言 -->
+	<select id="findOneStuAllForumt" parameterType="String" resultMap="BaseResultMap2">
+	select
+	*
+	from
+	forumt
+	where
+	forumt_number=#{forumt_number};
+	</select>
+	<!-- 删除某一条帖子 -->
+	<delete id="adminDeleteOneForum" parameterType="INTEGER">
+	delete
+	from
+	forum
+	where
+	id=#{id};
+	</delete>
+		<!--删除留言 -->
+	<delete id="adminDeleteAllForumt" parameterType="INTEGER">
+		delete
+	from
+	forumt
+	where
+	id=#{id};
+	</delete>
+	<!--删除某一条留言 -->
+	<delete id="adminDeleteOneForumt" parameterType="cn.edu.ujn.wq.dao.Forumt">
+	delete
+	from
+	forumt
+	where
+	uni_id=#{uni_id};
+	</delete>
+</mapper>

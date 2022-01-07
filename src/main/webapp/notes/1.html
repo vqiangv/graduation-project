@@ -1,0 +1,20 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!-- 网页使用的语言 -->
+<html lang="zh-CN">
+<head>
+    <!-- 指定字符集 -->
+    <meta charset="utf-8">
+    <!-- 使用Edge最新的浏览器的渲染方式 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+</head>
+<body>
+<img src="file://C:/Users/28597/Desktop/欢迎界面.jpeg" />
+ <form action="${pageContext.request.contextPath}/TestURLServlet">
+ 			<input type="text" id="textfield" name="filePath" /><br/>
+    <input type="file"   name="file" id="fileField" onchange="document.getElementById('textfield').value=document.getElementById('fileField').value">
+ 			<input type="submit" value="提交" /><br/>
+ </form>
+
+</body>
+</html>
